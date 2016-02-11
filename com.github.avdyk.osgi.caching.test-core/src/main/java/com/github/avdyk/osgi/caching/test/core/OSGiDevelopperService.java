@@ -4,6 +4,13 @@ import com.github.avdyk.osgi.caching.test.api.DevelopperService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.cache.Cache;
+import javax.cache.CacheManager;
+import javax.cache.Caching;
+import javax.cache.configuration.MutableConfiguration;
+import javax.cache.expiry.AccessedExpiryPolicy;
+import javax.cache.expiry.Duration;
+import javax.cache.spi.CachingProvider;
 import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +20,33 @@ public class OSGiDevelopperService implements DevelopperService {
 
     private static Logger logger = LoggerFactory.getLogger(OSGiDevelopperService.class);
 
+    private static final String CACHE_NAME = "avdyk_cache";
+    private final CacheManager cacheManager;
+
+    public OSGiDevelopperService() {
+        logger.info("Configuring the cache");
+        CachingProvider cachingProvider = Caching.getCachingProvider();
+        cacheManager = cachingProvider.getCacheManager();
+        MutableConfiguration<String, List> config = new MutableConfiguration();
+        config.setStoreByValue(true)
+            .setTypes(String.class, List.class)
+            .setExpiryPolicyFactory(AccessedExpiryPolicy.factoryOf(Duration.FIVE_MINUTES))
+            .setStatisticsEnabled(false);
+        cacheManager.createCache(CACHE_NAME, config);
+    }
+
     @Override
     public List<String> getDeveloppers(String service) {
         logger.info("get developper for {}", service);
-        return getDevs(service);
+        Cache<String, List> cache = cacheManager.getCache(CACHE_NAME, String.class, List.class);
+        final List<String> devs;
+        if (cache.containsKey(service)) {
+            devs = cache.get(service);
+        } else {
+            devs = getDevs(service);
+            cache.put(service, devs);
+        }
+        return devs;
     }
 
     private List<String> getDevs(String service) {
