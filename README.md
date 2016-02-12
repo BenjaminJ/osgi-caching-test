@@ -4,6 +4,14 @@ This is the javax.cache branch.
 
 When starting the core bundle, I have a __No CachingProviders have been configured__.
 
+* [hazelcast-spring](https://github.com/avdyk/osgi-caching-test/tree/hazelcast-spring)
+* [javax.cache](https://github.com/avdyk/osgi-caching-test/tree/javax.cache)
+
+# javax.cache
+
+When starting the core bundle, I have a __No CachingProviders have
+been configured__.
+
 ```java
 2016-02-12 11:46:50,446 | ERROR | tenderThread-300 | ContextLoaderListener            | 107 - org.springframework.osgi.extender - 1.2.1 | Application context refresh failed (OsgiBundleXmlApplicationContext(bundle=com.github.avdyk.osgi.caching.test.com.github.avdyk.osgi.caching.test-core, config=osgibundle:/META-INF/spring/*.xml))
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'osgiDevelopperService': Invocation of init method failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'com.github.avdyk.osgi.caching.testService' defined in URL [bundleresource://837.fwk1395852929/com/github/avdyk/osgi/caching/test/core/OSGiDevelopperService.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Could not instantiate bean class [com.github.avdyk.osgi.caching.test.core.OSGiDevelopperService]: Constructor threw exception; nested exception is javax.cache.CacheException: No CachingProviders have been configured
