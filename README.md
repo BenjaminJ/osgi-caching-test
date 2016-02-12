@@ -1,8 +1,9 @@
 # osgi-caching-test
+Caching tests in OSGi.
 
-This is the javax.cache branch.
+The __master__ is where the __no cache__ is defined.
 
-When starting the core bundle, I have a __No CachingProviders have been configured__.
+There are two examples of the cache implementation:
 
 * [hazelcast-spring](https://github.com/avdyk/osgi-caching-test/tree/hazelcast-spring)
 * [javax.cache](https://github.com/avdyk/osgi-caching-test/tree/javax.cache)
